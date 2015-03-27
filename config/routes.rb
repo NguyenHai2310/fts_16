@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   devise_for :users, controller: {
     registrations: 'users/registrations'
   }
@@ -12,6 +13,11 @@ Rails.application.routes.draw do
   namespace :admin do
     root      'static_pages#home'
     resources :users
+    resources :courses do
+      resources :questions do
+        resources :options
+      end
+    end
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

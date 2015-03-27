@@ -11,9 +11,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150325055615) do
+ActiveRecord::Schema.define(version: 20150326020539) do
+
+  create_table "courses", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.integer  "time",       limit: 4
+    t.integer  "level",      limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "options", force: :cascade do |t|
+    t.string   "content",     limit: 255
+    t.boolean  "correct",     limit: 1
+    t.integer  "question_id", limit: 4
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
+  end
+
+  add_index "options", ["question_id"], name: "index_options_on_question_id", using: :btree
+
+  create_table "questions", force: :cascade do |t|
+    t.string   "content",    limit: 255
+    t.integer  "course_id",  limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  add_index "questions", ["course_id"], name: "index_questions_on_course_id", using: :btree
 
   create_table "users", force: :cascade do |t|
+    t.string   "name",                   limit: 255, default: "",    null: false
     t.string   "email",                  limit: 255, default: "",    null: false
     t.string   "encrypted_password",     limit: 255, default: "",    null: false
     t.string   "reset_password_token",   limit: 255
@@ -26,7 +54,6 @@ ActiveRecord::Schema.define(version: 20150325055615) do
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name",                   limit: 255
     t.boolean  "admin",                  limit: 1,   default: false
   end
 
